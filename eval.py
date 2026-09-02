@@ -1,8 +1,10 @@
-import os
+import os, json
 import torch
 from huggingface_hub import snapshot_download
 from peft import PeftModel
 from transformers import AutoModelForCausalLM, AutoTokenizer
+import lm_eval
+from lm_eval.models.huggingface import HFLM
 
 MODEL_ID = "meta-llama/Meta-Llama-3-8B"
 
@@ -15,7 +17,6 @@ ALPACA_INFER = """Below is an instruction that describes a task. Write a respons
 """
 
 hf_token = os.environ.get("HF_TOKEN")
-
 
 tokenizer = AutoTokenizer.from_pretrained(MODEL_ID, token=hf_token, use_fast=True)
 tokenizer.pad_token = tokenizer.eos_token
@@ -36,11 +37,20 @@ lm = HFLM(pretrained=model, tokenizer=tokenizer, batch_size="auto")
 
 results = lm_eval.simple_evaluate(
     model=lm,
-    tasks=["arc_challenge", "hellaswag", "winogrande", "boolq", "piqa", "openbookqa"],
+    # tasks=["arc_challenge", "hellaswag", "winogrande", "boolq", "piqa", "openbookqa"],
+    tasks=["arc_challenge", "openbookqa"],
     num_fewshot=0,
     log_samples=True,
 )
+
+
+os.makedirs("results", exist_ok=True)
+with open("results/dora-seed-42.json", "w") as f:
+    json.dump(results, f, indent=2, default=str)
+
 print(lm_eval.utils.make_table(results))
+
+
 
 # basic prompt testing
 # prompt = ALPACA_INFER.format(instruction="Will it rain today?")
