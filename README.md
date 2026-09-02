@@ -1,6 +1,6 @@
 # DoRA / LoRA Quantization Safety Eval
 
-**Status: WIP**
+**Status: WIP ⚠️**
 
 Does [DoRA](https://arxiv.org/abs/2402.09353) preserve safety behavior better than LoRA (or other PEFT adapters), and does quantization change that picture?
 
