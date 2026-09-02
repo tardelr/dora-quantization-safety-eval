@@ -7,7 +7,7 @@ Does [DoRA](https://arxiv.org/abs/2402.09353) preserve safety behavior better th
 ## Questions
 
 1. **Adapter effect** — after identical instruction tuning, do DoRA and LoRA adapters differ in safety behavior (refusal rates, harmful completions, jailbreak resistance)?
-2. **Quantization effect** — does serving the same adapter at reduced precision (e.g. 4-bit / 8-bit vs bf16) degrade safety alignment, and is one adapter type more robust to it?
+2. **Quantization effect** — does serving the same adapter at reduced precision (e.g. 4-bit vs bf16) degrade safety alignment, and is one adapter type more robust to it?
 
 ## Setup
 
